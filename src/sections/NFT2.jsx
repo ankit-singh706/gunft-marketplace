@@ -4,6 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Awp_Model_Hunaya } from "../Awp_Hunaya_Model";
 import NFTMarket from "../components/NFTMarket";
+import Transacts from "./Transactions";
 
 
 const NFT2 = () =>{
@@ -24,7 +25,6 @@ const NFT2 = () =>{
 
     return(
         <>
-        
         <div className='showcase_container'>
             <div className="showcase">
                 <div className="gun_model">

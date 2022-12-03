@@ -6,6 +6,9 @@ import M4_nightmare from '../M4_nightmare';
 import * as THREE from "three";
 import NFTMarket from "../components/NFTMarket";
 import { useTexture } from "@react-three/drei";
+import {ethers} from 'ethers';
+import marketplaceABI from '../Marketplace_ABI.json';
+import gunFTabi from '../GuNFT_ABI.json';
 
 
 //Importing Textures
@@ -29,6 +32,46 @@ const NFT3 = () =>{
     const removeMuzzle = () => {setCurrentMuzzle(false)}
 
 
+    const handleBuy = async (itemId) => {
+        // const [imagePath, name, description] = args
+        // const result = await storeNFT(modelPath, model.name, model.description)
+        // console.log("result ",result)
+
+        const gunContractAddress = "0x1f3CFeB39797843878530eb75Da8ee9412fF168B"
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const gunft_contract = new ethers.Contract(gunContractAddress, gunFTabi, signer);
+
+        const marketplaceContractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138"
+        // const provider = new ethers.providers.Web3Provider(window.ethereum);
+        // await provider.send("eth_requestAccounts", []);
+        // const signer = await provider.getSigner();
+        console.log("signer", signer)
+        const marketplace_contract = new ethers.Contract(marketplaceContractAddress, marketplaceABI , signer);
+        // const approvalEstimate = gunft_contract.estimateGas.setApprovalForAll(marketplaceContractAddress,true).then((a)=>{console.log("set approval estimate pass ",a)}).catch((e)=>{console.log("set approval estimate fail ",e)})
+        // const approvalOptions = {gasLimit: approvalEstimate}
+        gunft_contract.setApprovalForAll(marketplaceContractAddress,true).then((a)=>{console.log("set approval pass ",a)}).catch((e)=>{console.log("set approval fail ",e)})
+        // const makeItemEstimate = marketplace_contract.estimateGas.makeItem(gunContractAddress,1,1).then((a)=>{console.log("make item estimate pass ",a)}).catch((e)=>{console.log("make item estimate fail ",e)})
+        // const makeItemOptions = {gasLimit: makeItemEstimate}
+        marketplace_contract.makeItem(gunContractAddress,1,1).then((a)=>{console.log("make item pass ",a)}).catch((e)=>{console.log("make item fail ",e)})
+        // const itemTotalPrice = await marketplace_contract.getTotalPrice(itemId)
+        // console.log(itemTotalPrice.toString())
+        // const itemPriceEstimate = marketplace_contract.estimateGas.getTotalPrice(itemId).then((a)=>{console.log("item total price estimate pass ",a)}).catch((e)=>{console.log("item total price estimate fail ",e)})
+        // const itemPriceOptions = {gasLimit: itemPriceEstimate}
+        const itemTotalPrice = marketplace_contract.getTotalPrice(itemId).then((a)=>{console.log("item total price pass ",a)}).catch((e)=>{console.log("item total price fail ",e)})
+        const options = {value: itemTotalPrice}
+        console.log("options ",options)
+        // const purchaseEstimate = marketplace_contract.estimateGas.purchaseItem(itemId,options).then((a)=>{console.log("purchase estimate pass ",a)}).catch((e)=>{console.log("purchase estimate fail ",e)})
+        // const purchaseGaslimit = purchaseEstimate
+        // const purchaseValue = itemTotalPrice
+        // const purchaseOptions = {gasLimit: purchaseGaslimit,value:purchaseValue}
+        marketplace_contract.purchaseItem(itemId,options).then((a)=>{console.log("purchase pass ",a)}).catch((e)=>{console.log("purchase fail ",e)})        
+
+        // 0xFd8C39f22b7Fd754e78211918B49478A37eDd3fF
+    }
+
+   
     return(
         <>
         <div className='showcase_container'>
@@ -76,7 +119,7 @@ The M4 is extensively used by the United States Armed Forces.</p>
                         <hr />
                     </div>
                     <div className="mint_nft">
-                        <p>Buy NFT</p>
+                        <p onClick={() => {handleBuy(0)}}>Buy NFT</p>
                     </div>
             </div>
         </div>

@@ -4,8 +4,18 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Plain_Aug from '../Plain_Aug';
 import NFTMarket from '../components/NFTMarket';
+// import Transacts from "./Transactions";
+import { ethers } from "ethers";
+import gunFTabi from '../GuNFT_ABI.json';
+import '../utils/Web3.js'
 
+import { NFTStorage, File} from 'nft.storage';
+import mime from 'mime';
+import fs from 'fs';
+import path from 'path';
+const NFT_STORAGE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGREZTZGOGQwN0U5NzM0MTk3ZUY2OTY5YWI3ODBFMjgzMzAwYWU4NjUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MDA2NjcyNjQ0NSwibmFtZSI6Imd1bmZ0X25mdHMifQ.-6y-e_Iq9Ea9EQC14Jfntrj0Dvxp3XnzPu8gt4KyLYw';
 
+const tokenURI = "https://ipfs.io/ipfs/QmRgzmoP5s4j8izzmqqAyHF5MnzjsWjbCPj361dk9WQe5b";
 
 // Importing Images
 
@@ -16,12 +26,19 @@ import Tex3 from '../assets/textures/aug_momentum.png';
 import Tex4 from '../assets/textures/aug_prog.png';
 import Tex5 from '../assets/textures/aug_swallows.png';
 
+
 import Aug_momentum from '../../public/Aug_momentum';
 import Aug_birds from '../../public/Aug_birds';
 import Aug_mead from '../../public/Aug_mead';
 import Aug_prog from '../../public/Aug_prog';
 import Aug_swallows from '../../public/Aug_swallows';
 
+const model = {
+    // path: "../../public/Aug_momentum.glb",
+    path: "../../public/abhijeet_mem.jpg",
+    name: "asfd",
+    description: "afds"
+}
 
 const AugLab = () => {
     const [currentTexture, setCurrentTexture] = useState(<Plain_Aug />);
@@ -61,6 +78,59 @@ const AugLab = () => {
             return <Aug_swallows isScopePresent={currentScope} isMuzzlePresent={currentMuzzle}/>
         }
     }
+
+    const handleMint = async (address,tokenURI,model,modelPath) => {
+        // const [imagePath, name, description] = args
+        // const result = await storeNFT(modelPath, model.name, model.description)
+        // console.log("result ",result)
+
+        const contractAddress = "0x1f3CFeB39797843878530eb75Da8ee9412fF168B"
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const gunft_contract = new ethers.Contract(contractAddress, gunFTabi, signer);
+        const options = {value: ethers.utils.parseEther("0.001")}
+        console.log("tokenURI",tokenURI,"\noptions ",options)
+        await gunft_contract.safeMint(address,tokenURI,options);
+        // 0xFd8C39f22b7Fd754e78211918B49478A37eDd3fF
+        
+    }
+
+    async function fileFromPath(filePath) {
+        const content = new FileReader(filePath)
+        console.log("content ",content)
+        const type = mime.getType(filePath)
+        console.log("type ",type)
+        const file = new File([content], (filePath), { type })
+        console.log("file ", file)
+        
+        return file
+    }
+
+    async function storeNFT(filepath, name, description) {
+        // load the file from disk
+        const model = await fileFromPath(filepath)
+        const nftstorage = new NFTStorage({ token: NFT_STORAGE_KEY })
+        // console.log("nftstorage ",nftstorage)
+        // call client.store, passing in the image & metadata
+        // const store_object = nftstorage.store({
+        //     model,
+        //     name,
+        //     description,
+        // }).then((obj)=>{
+        //     console.log(obj);
+        // }).catch((err)=> {
+        //     // console.log("store obj", store_object)
+        //     console.log(err)
+        // })
+        return nftstorage.store({
+            model,
+            name,
+            description,
+        })
+    }
+
+
 
     return (
         <>
@@ -144,7 +214,8 @@ const AugLab = () => {
                         <hr />
                     </div>
                     <div className="mint_nft">
-                        <p>Mint NFT</p>
+                        <p onClick={() => {handleMint("0xFd8C39f22b7Fd754e78211918B49478A37eDd3fF",tokenURI,model)}
+                    }>Mint NFT</p>
                     </div>
                 </div>
             </div>
