@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  app:
+    container_name: docker-react-c
+    image: docker-react-i
+    build: 
+      context: .
+    ports:
+      - 5173:80
