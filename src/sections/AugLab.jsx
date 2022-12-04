@@ -7,7 +7,6 @@ import NFTMarket from '../components/NFTMarket';
 // import Transacts from "./Transactions";
 import { ethers } from "ethers";
 import gunFTabi from '../GuNFT_ABI.json';
-import '../utils/Web3.js'
 
 import { NFTStorage, File} from 'nft.storage';
 import mime from 'mime';

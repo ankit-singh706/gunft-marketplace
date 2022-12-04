@@ -37,11 +37,6 @@ const Footer = () => {
                             <div className="name">Mahesh Chavan</div>
                             <div className="social"><a href="https://www.linkedin.com/in/mahesh-chavan-6581b6171/"><img src={LinkedLogo} alt=""/></a></div>
                         </div>
-                        <div className="team_mem">
-                            <img src={AbhiImg} alt="" />
-                            <div className="name">Abhijeet Kumar</div>
-                            <div className="social"><a href="https://www.linkedin.com/in/abhijeet-kumar1608/"><img src={LinkedLogo} alt=""/></a></div>
-                        </div>
                     </div>
                 </div>
                 <div className="top_sells">
