@@ -38,3 +38,6 @@ Website is hosted at https://gunft-marketplace.vercel.app/
 We've tried to deploy a docker image using StackOS at: https://gunft-poddb271b698497a58269cdc1c3c2b29b760404041-authority.stackos.io
 
 It is an NFT marketplace where custom gun mods can be minted and also NFTs can be bought and sold.
+
+## Video
+Demo of the game and website is uploaded on YouTube: https://youtu.be/mVeRgehbz6k
