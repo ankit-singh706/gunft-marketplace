@@ -14,6 +14,8 @@ Contracts are deployed on Polygon Mumbai Testnet:
   - Contract Address: 0x27e3980B949F3c9360E488724AB27d193e5759ff
   - Polygonscan: https://mumbai.polygonscan.com/address/0x27e3980B949F3c9360E488724AB27d193e5759ff
 
+We tried to use Biconomy for Gasless Transactions but failed to do so since Vite apps aren't yet supported
+
 ## IPFS
 
 Initially the models were uploaded to IPFS as a folder. Those can be found here: ipfs://bafybeiem5gn34ejnmbb3idbc7hszmprqrc3zvpintn7o6fyxcqts7f3fxi/
@@ -26,3 +28,13 @@ An example model is uploaded at: ipfs://bafybeiczx6mwsgz6m7nxxks5t6jqswlkbykg45n
 Metadata at: ipfs://bafybeibrzfopa3z7fgl6e7gayzvab4xpb56epaivylcw5nxn7grgofqjmy/
 
 
+## Game
+The FPS game is built using Unity and Photon (for Multiplayer).
+A downloadable version of the game is deployed at https://mahesh-2029.itch.io/gunft
+
+
+## Website
+Website is hosted at https://gunft-marketplace.vercel.app/
+We've tried to deploy a docker image using StackOS at: https://gunft-poddb271b698497a58269cdc1c3c2b29b760404041-authority.stackos.io
+
+It is an NFT marketplace where custom gun mods can be minted and also NFTs can be bought and sold.
